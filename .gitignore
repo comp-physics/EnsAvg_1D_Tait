@@ -3,5 +3,6 @@ D/
 *.o
 *.dat
 *.sh*
+*.mod
 makefile*
 Makefile*
