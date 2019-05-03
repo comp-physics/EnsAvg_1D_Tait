@@ -2516,7 +2516,7 @@ MODULE m_inoutvar
        ! numerical specification
        NRh = ( NR0+1 )/2
        CALL DATE_AND_TIME( today_date,today_time )
-       OPEN(UNIT=1,FILE='./setup.dat')
+       OPEN(UNIT=1,FILE='./D/setup.dat')
        WRITE(1,*) 'date: ', today_date, ', time: ', today_time
        WRITE(1,*) 'nonlinear computation: ', nonlin
        IF ( nonlin=='y' ) THEN
@@ -2578,14 +2578,14 @@ MODULE m_inoutvar
        CLOSE(1)
        ! weights
        IF ( disperse=='poly' ) THEN
-          OPEN(UNIT=2,FILE='./weights.dat',STATUS='UNKNOWN',FORM='FORMATTED')
+          OPEN(UNIT=2,FILE='./D/weights.dat',STATUS='UNKNOWN',FORM='FORMATTED')
           DO ir = 1,NR0
              WRITE(2,*) R0(ir), weight(ir)
           END DO
           CLOSE(2)
        END IF
        ! grid
-       OPEN(UNIT=3,FILE='./xgrid.dat',STATUS='UNKNOWN',FORM='FORMATTED')
+       OPEN(UNIT=3,FILE='./D/xgrid.dat',STATUS='UNKNOWN',FORM='FORMATTED')
        DO i = 1,Nx_tot
           WRITE(3,*) xgrid_tot(i), dxs_tot(i)
        END DO
@@ -2633,7 +2633,7 @@ MODULE m_inoutvar
        END DO
        IF ( CFLmx<CFLmx1 ) THEN
           CFLmx = CFLmx1
-          OPEN(UNIT=4,FILE='./maxcfl.dat',STATUS='UNKNOWN', &
+          OPEN(UNIT=4,FILE='./D/maxcfl.dat',STATUS='UNKNOWN', &
                FORM='FORMATTED',POSITION='APPEND')
           WRITE(4,*) time, CFLmx
           CLOSE(4)
@@ -2642,12 +2642,12 @@ MODULE m_inoutvar
 
     ! wall velocity & pressure
     IF ( xincoming%beg=='freeplate'.AND.mpi_rank==0 ) THEN
-       OPEN(UNIT=5,FILE='wall.dat',STATUS='UNKNOWN',FORM='FORMATTED', &
+       OPEN(UNIT=5,FILE='D/wall.dat',STATUS='UNKNOWN',FORM='FORMATTED', &
             POSITION='APPEND')
        WRITE(5,*) time, uwall, pwall
        CLOSE(5)
     ELSE IF ( xincoming%end=='freeplate'.AND.mpi_rank==0 ) THEN
-       OPEN(UNIT=5,FILE='wall.dat',STATUS='UNKNOWN',FORM='FORMATTED', &
+       OPEN(UNIT=5,FILE='D/wall.dat',STATUS='UNKNOWN',FORM='FORMATTED', &
             POSITION='APPEND')
        WRITE(5,*) time, uwall, pwall
        CLOSE(5)
@@ -2659,7 +2659,7 @@ MODULE m_inoutvar
        vftmp = prim(Nveul)%f(i_probe1)
        vftmp1 = 1.D0 - vftmp
        pl = ( pl0+B_tait )*( prim(1)%f(i_probe1)/vftmp1 )**n_tait - B_tait
-       OPEN(UNIT=7,FILE='./probe1.dat',STATUS='UNKNOWN',FORM='FORMATTED', &
+       OPEN(UNIT=7,FILE='./D/probe1.dat',STATUS='UNKNOWN',FORM='FORMATTED', &
             POSITION='APPEND')
        WRITE(7,*) time, pl, vftmp
        CLOSE(7)
@@ -2670,7 +2670,7 @@ MODULE m_inoutvar
        vftmp = prim(Nveul)%f(i_probe2)
        vftmp1 = 1.D0 - vftmp
        pl = ( pl0+B_tait )*( prim(1)%f(i_probe2)/vftmp1 )**n_tait - B_tait
-       OPEN(UNIT=8,FILE='./probe2.dat',STATUS='UNKNOWN',FORM='FORMATTED', &
+       OPEN(UNIT=8,FILE='./D/probe2.dat',STATUS='UNKNOWN',FORM='FORMATTED', &
             POSITION='APPEND')
        WRITE(8,*) time, pl, vftmp
        CLOSE(8)
@@ -2682,7 +2682,7 @@ MODULE m_inoutvar
 
        ! output time
        IF ( mpi_rank==0 ) THEN
-          OPEN(UNIT=9,FILE='./flowtime.dat',STATUS='UNKNOWN', &
+          OPEN(UNIT=9,FILE='./D/flowtime.dat',STATUS='UNKNOWN', &
                FORM='FORMATTED',POSITION='APPEND')
           WRITE(9,*) itout, time
           CLOSE(9)
@@ -2755,14 +2755,14 @@ MODULE m_inoutvar
 !       END IF
        IF ( mpi_rank==mpi_rank_integ1 ) THEN
           IF ( nonlin=='n'.AND.ictype=='4' ) THEN
-             OPEN(UNIT=12,FILE='./integ_'//no//'.dat',STATUS='UNKNOWN', &
+             OPEN(UNIT=12,FILE='./D/integ_'//no//'.dat',STATUS='UNKNOWN', &
                   FORM='FORMATTED')
              DO ir = 1,NR0
                 WRITE(12,*) prim(ibub(1,ir))%f(i_integ1) - R0(ir)
              END DO
              CLOSE(12)
           ELSE
-             OPEN(UNIT=12,FILE='./integ1_'//no//'.dat',STATUS='UNKNOWN', &
+             OPEN(UNIT=12,FILE='./D/integ1_'//no//'.dat',STATUS='UNKNOWN', &
                   FORM='FORMATTED')
              DO ir = 1,NR0
                 WRITE(12,*) prim(ibub(1,ir))%f(i_integ1)
@@ -2770,7 +2770,7 @@ MODULE m_inoutvar
              CLOSE(12)
           END IF
        ELSE IF ( mpi_rank==mpi_rank_integ2 ) THEN
-          OPEN(UNIT=13,FILE='./integ2_'//no//'.dat',STATUS='UNKNOWN', &
+          OPEN(UNIT=13,FILE='./D/integ2_'//no//'.dat',STATUS='UNKNOWN', &
                FORM='FORMATTED')
           DO ir = 1,NR0
              WRITE(13,*) prim(ibub(1,ir))%f(i_integ2)

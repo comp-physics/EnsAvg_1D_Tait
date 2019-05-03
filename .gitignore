@@ -3,3 +3,5 @@ D/
 *.o
 *.dat
 *.sh*
+makefile*
+Makefile*
