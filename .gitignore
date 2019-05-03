@@ -4,5 +4,6 @@ D/
 *.dat
 *.sh*
 *.mod
+b1d
 makefile*
 Makefile*
