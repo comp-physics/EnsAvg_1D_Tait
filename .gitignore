@@ -5,6 +5,4 @@ D/
 *.sh*
 *.mod
 b1d
-makefile*
-Makefile*
-m_inoutvar*
+tags
